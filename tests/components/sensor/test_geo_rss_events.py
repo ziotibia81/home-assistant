@@ -1,6 +1,10 @@
 """The test for the geo rss events sensor platform."""
 import unittest
 from unittest import mock
+import sys
+
+import feedparser
+import pytest
 
 from homeassistant.setup import setup_component
 from tests.common import load_fixture, get_test_home_assistant
@@ -21,6 +25,9 @@ VALID_CONFIG_WITHOUT_CATEGORIES = {
 }
 
 
+# Until https://github.com/kurtmckee/feedparser/pull/131 is released.
+@pytest.mark.skipif(sys.version_info[:2] >= (3, 7),
+                    reason='Package incompatible with Python 3.7')
 class TestGeoRssServiceUpdater(unittest.TestCase):
     """Test the GeoRss service updater."""
 
@@ -33,7 +40,8 @@ class TestGeoRssServiceUpdater(unittest.TestCase):
         """Stop everything that was started."""
         self.hass.stop()
 
-    def test_setup_with_categories(self):
+    @mock.patch('feedparser.parse', return_value=feedparser.parse(""))
+    def test_setup_with_categories(self, mock_parse):
         """Test the general setup of this sensor."""
         self.config = VALID_CONFIG_WITH_CATEGORIES
         self.assertTrue(
@@ -43,7 +51,8 @@ class TestGeoRssServiceUpdater(unittest.TestCase):
         self.assertIsNotNone(
             self.hass.states.get('sensor.event_service_category_2'))
 
-    def test_setup_without_categories(self):
+    @mock.patch('feedparser.parse', return_value=feedparser.parse(""))
+    def test_setup_without_categories(self, mock_parse):
         """Test the general setup of this sensor."""
         self.assertTrue(
             setup_component(self.hass, 'sensor', {'sensor': self.config}))

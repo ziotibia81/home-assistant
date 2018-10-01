@@ -7,19 +7,22 @@ https://home-assistant.io/components/alarm_control_panel.manual/
 import copy
 import datetime
 import logging
+import re
 
 import voluptuous as vol
 
 import homeassistant.components.alarm_control_panel as alarm
-import homeassistant.util.dt as dt_util
 from homeassistant.const import (
-    STATE_ALARM_ARMED_AWAY, STATE_ALARM_ARMED_HOME, STATE_ALARM_ARMED_NIGHT,
-    STATE_ALARM_ARMED_CUSTOM_BYPASS, STATE_ALARM_DISARMED, STATE_ALARM_PENDING,
-    STATE_ALARM_TRIGGERED, CONF_PLATFORM, CONF_NAME, CONF_CODE,
-    CONF_DELAY_TIME, CONF_PENDING_TIME, CONF_TRIGGER_TIME,
-    CONF_DISARM_AFTER_TRIGGER)
+    CONF_CODE, CONF_DELAY_TIME, CONF_DISARM_AFTER_TRIGGER, CONF_NAME,
+    CONF_PENDING_TIME, CONF_PLATFORM, CONF_TRIGGER_TIME,
+    STATE_ALARM_ARMED_AWAY, STATE_ALARM_ARMED_CUSTOM_BYPASS,
+    STATE_ALARM_ARMED_HOME, STATE_ALARM_ARMED_NIGHT, STATE_ALARM_DISARMED,
+    STATE_ALARM_PENDING, STATE_ALARM_TRIGGERED)
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.event import track_point_in_time
+import homeassistant.util.dt as dt_util
+
+_LOGGER = logging.getLogger(__name__)
 
 CONF_CODE_TEMPLATE = 'code_template'
 
@@ -44,6 +47,7 @@ ATTR_POST_PENDING_STATE = 'post_pending_state'
 
 
 def _state_validator(config):
+    """Validate the state."""
     config = copy.deepcopy(config)
     for state in SUPPORTED_PRETRIGGER_STATES:
         if CONF_DELAY_TIME not in config[state]:
@@ -58,6 +62,7 @@ def _state_validator(config):
 
 
 def _state_schema(state):
+    """Validate the state."""
     schema = {}
     if state in SUPPORTED_PRETRIGGER_STATES:
         schema[vol.Optional(CONF_DELAY_TIME)] = vol.All(
@@ -97,12 +102,10 @@ PLATFORM_SCHEMA = vol.Schema(vol.All({
         _state_schema(STATE_ALARM_TRIGGERED),
 }, _state_validator))
 
-_LOGGER = logging.getLogger(__name__)
 
-
-def setup_platform(hass, config, add_devices, discovery_info=None):
+def setup_platform(hass, config, add_entities, discovery_info=None):
     """Set up the manual alarm platform."""
-    add_devices([ManualAlarm(
+    add_entities([ManualAlarm(
         hass,
         config[CONF_NAME],
         config.get(CONF_CODE),
@@ -151,7 +154,7 @@ class ManualAlarm(alarm.AlarmControlPanel):
 
     @property
     def should_poll(self):
-        """Return the plling state."""
+        """Return the polling state."""
         return False
 
     @property
@@ -170,9 +173,8 @@ class ManualAlarm(alarm.AlarmControlPanel):
                     trigger_time) < dt_util.utcnow():
                 if self._disarm_after_trigger:
                     return STATE_ALARM_DISARMED
-                else:
-                    self._state = self._previous_state
-                    return self._state
+                self._state = self._previous_state
+                return self._state
 
         if self._state in SUPPORTED_PENDING_STATES and \
                 self._within_pending_time(self._state):
@@ -182,24 +184,30 @@ class ManualAlarm(alarm.AlarmControlPanel):
 
     @property
     def _active_state(self):
+        """Get the current state."""
         if self.state == STATE_ALARM_PENDING:
             return self._previous_state
-        else:
-            return self._state
+        return self._state
 
     def _pending_time(self, state):
+        """Get the pending time."""
         pending_time = self._pending_time_by_state[state]
         if state == STATE_ALARM_TRIGGERED:
             pending_time += self._delay_time_by_state[self._previous_state]
         return pending_time
 
     def _within_pending_time(self, state):
+        """Get if the action is in the pending time window."""
         return self._state_ts + self._pending_time(state) > dt_util.utcnow()
 
     @property
     def code_format(self):
-        """One or more characters."""
-        return None if self._code is None else '.+'
+        """Return one or more digits/characters."""
+        if self._code is None:
+            return None
+        if isinstance(self._code, str) and re.search('^\\d+$', self._code):
+            return 'Number'
+        return 'Any'
 
     def alarm_disarm(self, code=None):
         """Send disarm command."""
@@ -250,6 +258,7 @@ class ManualAlarm(alarm.AlarmControlPanel):
         self._update_state(STATE_ALARM_TRIGGERED)
 
     def _update_state(self, state):
+        """Update the state."""
         if self._state == state:
             return
 

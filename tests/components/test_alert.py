@@ -36,7 +36,7 @@ class TestAlert(unittest.TestCase):
     """Test the alert module."""
 
     def setUp(self):
-        """Setup things to be run when tests are started."""
+        """Set up things to be run when tests are started."""
         self.hass = get_test_home_assistant()
 
     def tearDown(self):
@@ -107,7 +107,7 @@ class TestAlert(unittest.TestCase):
         self.assertEqual(STATE_ON, self.hass.states.get(ENTITY_ID).state)
 
     def test_hidden(self):
-        """Test entity hidding."""
+        """Test entity hiding."""
         assert setup_component(self.hass, alert.DOMAIN, TEST_CONFIG)
         hidden = self.hass.states.get(ENTITY_ID).attributes.get('hidden')
         self.assertTrue(hidden)
