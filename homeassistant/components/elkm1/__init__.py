@@ -35,7 +35,7 @@ CONF_ENABLED = 'enabled'
 
 _LOGGER = logging.getLogger(__name__)
 
-SUPPORTED_DOMAINS = ['alarm_control_panel']
+SUPPORTED_DOMAINS = ['alarm_control_panel', 'light', 'scene', 'switch']
 
 
 def _host_validator(config):
@@ -138,7 +138,7 @@ async def async_setup(hass: HomeAssistant, hass_config: ConfigType) -> bool:
     hass.data[DOMAIN] = {'elk': elk, 'config': config, 'keypads': {}}
     for component in SUPPORTED_DOMAINS:
         hass.async_create_task(
-            discovery.async_load_platform(hass, component, DOMAIN))
+            discovery.async_load_platform(hass, component, DOMAIN, {}))
 
     return True
 
@@ -157,11 +157,10 @@ def create_elk_entities(hass, elk_elements, element_type, class_, entities):
 class ElkEntity(Entity):
     """Base class for all Elk entities."""
 
-    def __init__(self, platform, element, elk, elk_data):
+    def __init__(self, element, elk, elk_data):
         """Initialize the base of all Elk devices."""
         self._elk = elk
         self._element = element
-        self._state = None
         self._temperature_unit = elk_data['config']['temperature_unit']
         self._unique_id = 'elkm1_{}'.format(
             self._element.default_name('_').lower())
@@ -198,7 +197,7 @@ class ElkEntity(Entity):
         return attrs
 
     def _element_changed(self, element, changeset):
-        raise NotImplementedError()
+        pass
 
     @callback
     def _element_callback(self, element, changeset):
