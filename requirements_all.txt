@@ -1,7 +1,7 @@
 # Home Assistant core
 aiohttp==3.4.4
 astral==1.6.1
-async_timeout==3.0.0
+async_timeout==3.0.1
 attrs==18.2.0
 bcrypt==3.1.4
 certifi>=2018.04.16
@@ -110,7 +110,7 @@ aiohue==1.5.0
 aioimaplib==0.7.13
 
 # homeassistant.components.lifx
-aiolifx==0.6.3
+aiolifx==0.6.5
 
 # homeassistant.components.light.lifx
 aiolifx_effects==0.2.1
@@ -153,7 +153,7 @@ asterisk_mbox==0.5.0
 
 # homeassistant.components.upnp
 # homeassistant.components.media_player.dlna_dmr
-async-upnp-client==0.12.5
+async-upnp-client==0.12.7
 
 # homeassistant.components.light.avion
 # avion==0.7
@@ -185,7 +185,7 @@ bellows==0.7.0
 bimmer_connected==0.5.3
 
 # homeassistant.components.blink
-blinkpy==0.9.0
+blinkpy==0.10.1
 
 # homeassistant.components.light.blinksticklight
 blinkstick==1.1.8
@@ -310,7 +310,7 @@ dlipower==0.7.165
 dovado==0.4.1
 
 # homeassistant.components.sensor.dsmr
-dsmr_parser==0.11
+dsmr_parser==0.12
 
 # homeassistant.components.dweet
 # homeassistant.components.sensor.dweet
@@ -376,7 +376,7 @@ fitbit==0.3.0
 fixerio==1.0.0a0
 
 # homeassistant.components.light.flux_led
-flux_led==0.21
+flux_led==0.22
 
 # homeassistant.components.sensor.foobot
 foobot_async==0.3.1
@@ -430,7 +430,7 @@ gps3==0.33.3
 greenwavereality==0.5.1
 
 # homeassistant.components.media_player.gstreamer
-gstreamer-player==1.1.0
+gstreamer-player==1.1.2
 
 # homeassistant.components.ffmpeg
 ha-ffmpeg==1.9
@@ -442,7 +442,7 @@ ha-philipsjs==0.0.5
 habitipy==0.2.0
 
 # homeassistant.components.hangouts
-hangups==0.4.5
+hangups==0.4.6
 
 # homeassistant.components.mqtt.server
 hbmqtt==0.9.4
@@ -463,10 +463,10 @@ hipnotify==1.0.8
 hole==0.3.0
 
 # homeassistant.components.binary_sensor.workday
-holidays==0.9.7
+holidays==0.9.8
 
 # homeassistant.components.frontend
-home-assistant-frontend==20181014.0
+home-assistant-frontend==20181021.0
 
 # homeassistant.components.homekit_controller
 # homekit==0.10
@@ -531,7 +531,7 @@ keyrings.alt==3.1
 kiwiki-client==0.1.1
 
 # homeassistant.components.konnected
-konnected==0.1.2
+konnected==0.1.4
 
 # homeassistant.components.eufy
 lakeside==0.10
@@ -606,7 +606,7 @@ mficlient==0.3.0
 miflora==0.4.0
 
 # homeassistant.components.climate.mill
-millheater==0.1.1
+millheater==0.1.2
 
 # homeassistant.components.sensor.mitemp_bt
 mitemp_bt==0.0.1
@@ -640,7 +640,7 @@ ndms2_client==0.0.4
 netdata==0.1.2
 
 # homeassistant.components.discovery
-netdisco==2.1.0
+netdisco==2.2.0
 
 # homeassistant.components.sensor.neurio_energy
 neurio==0.3.1
@@ -779,7 +779,7 @@ pyMetno==0.3.0
 pyRFXtrx==0.23
 
 # homeassistant.components.switch.switchmate
-pySwitchmate==0.4.1
+pySwitchmate==0.4.2
 
 # homeassistant.components.tibber
 pyTibber==0.7.2
@@ -789,9 +789,6 @@ pyW215==0.6.0
 
 # homeassistant.components.sensor.noaa_tides
 # py_noaa==0.3.0
-
-# homeassistant.components.cover.ryobi_gdo
-py_ryobi_gdo==0.0.10
 
 # homeassistant.components.ads
 pyads==2.2.6
@@ -803,7 +800,7 @@ pyairvisual==2.0.1
 pyalarmdotcom==0.3.2
 
 # homeassistant.components.arlo
-pyarlo==0.2.0
+pyarlo==0.2.2
 
 # homeassistant.components.netatmo
 pyatmo==1.2
@@ -960,10 +957,10 @@ pylgnetcast-homeassistant==0.2.0.dev0
 
 # homeassistant.components.media_player.webostv
 # homeassistant.components.notify.webostv
-pylgtv==0.1.7
+pylgtv==0.1.9
 
 # homeassistant.components.sensor.linky
-pylinky==0.1.6
+pylinky==0.1.8
 
 # homeassistant.components.litejet
 pylitejet==0.1
@@ -1008,7 +1005,7 @@ pymysensors==0.17.0
 pynello==1.5.1
 
 # homeassistant.components.device_tracker.netgear
-pynetgear==0.4.2
+pynetgear==0.5.0
 
 # homeassistant.components.switch.netio
 pynetio==0.1.9.1
@@ -1033,7 +1030,7 @@ pyoppleio==1.0.5
 pyota==2.0.5
 
 # homeassistant.components.opentherm_gw
-pyotgw==0.1b0
+pyotgw==0.2b1
 
 # homeassistant.auth.mfa_modules.notify
 # homeassistant.auth.mfa_modules.totp
@@ -1308,6 +1305,9 @@ roombapy==1.3.1
 # homeassistant.components.switch.rpi_rf
 # rpi-rf==0.9.6
 
+# homeassistant.components.lovelace
+ruamel.yaml==0.15.72
+
 # homeassistant.components.media_player.russound_rnet
 russound==0.1.9
 
@@ -1383,7 +1383,7 @@ smappy==0.2.16
 smhi-pkg==1.0.4
 
 # homeassistant.components.media_player.snapcast
-snapcast==2.0.8
+snapcast==2.0.9
 
 # homeassistant.components.sensor.socialblade
 socialbladeclient==0.2
@@ -1447,6 +1447,9 @@ tellcore-py==1.1.2
 # homeassistant.components.tellduslive
 tellduslive==0.10.4
 
+# homeassistant.components.media_player.lg_soundbar
+temescal==0.1
+
 # homeassistant.components.sensor.temper
 temperusb==1.5.3
 
@@ -1454,7 +1457,7 @@ temperusb==1.5.3
 teslajsonpy==0.0.23
 
 # homeassistant.components.sensor.thermoworks_smoke
-thermoworks_smoke==0.1.6
+thermoworks_smoke==0.1.7
 
 # homeassistant.components.thingspeak
 thingspeak==0.4.1
@@ -1482,7 +1485,7 @@ transmissionrpc==0.11
 tuyapy==0.1.3
 
 # homeassistant.components.twilio
-twilio==5.7.0
+twilio==6.19.1
 
 # homeassistant.components.sensor.uber
 uber_rides==0.6.0
